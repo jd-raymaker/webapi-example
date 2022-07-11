@@ -2,11 +2,18 @@ using Microsoft.EntityFrameworkCore;
 
 public class ItemContext : DbContext
 {
-    public DbSet<Item>? Items { get; set; }
+    private readonly string _connectionString;
+
+    public DbSet<Item>? Items => Set<Item>();
+
+    public ItemContext(string connectionString)
+    {
+        _connectionString = connectionString;
+    }
 
     protected override void OnConfiguring(DbContextOptionsBuilder options)
     {
-        options.UseInMemoryDatabase("temp-webapi");
+        options.UseInMemoryDatabase(_connectionString);
     }
 }
 
