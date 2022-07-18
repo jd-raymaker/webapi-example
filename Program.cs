@@ -1,3 +1,5 @@
+ILogger logger = new LogToConsole();
+
 // Initialize new instance of WebAppBuilder
 var builder = WebApplication.CreateBuilder(args);
 // Build WebApp
@@ -22,6 +24,7 @@ app.MapGet("/items", () =>
 // Accepts RAW packet with JSON
 app.MapPost("/new", async (Item i) =>
 {
+    logger.Log($"Creating {i.Name}");
     db.Add(i);
     await db.SaveChangesAsync();
     return Results.Created($"/new/{i.Id}", i);
